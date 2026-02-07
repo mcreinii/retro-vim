@@ -1,6 +1,6 @@
 local set = vim.keymap.set
 local function keymap(mode, map, action, desc)
-    set(mode, map, action, { silent = true, noremap = true, desc = desc or nil })
+	set(mode, map, action, { silent = true, noremap = true, desc = desc or nil })
 end
 
 -- Window

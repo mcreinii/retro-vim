@@ -14,5 +14,6 @@ o.termguicolors = true
 o.wrap = false
 o.scrolloff = 8
 o.updatetime = 250
+o.laststatus = 3
 o.cmdheight = 0
 o.winborder = 'single'
