@@ -34,7 +34,6 @@ return {
                     lazydev = {
                         name = 'LazyDev',
                         module = 'lazydev.integrations.blink',
-                        -- make lazydev completions top priority (see `:h blink.cmp`)
                         score_offset = 100,
                     },
                 },
@@ -49,7 +48,7 @@ return {
     {
         'ibhagwan/fzf-lua',
         opts = {
-            fzf_opts = { ['--layout'] = 'reverse' }, -- classic top-down feel
+            fzf_opts = { ['--layout'] = 'reverse' },
             winopts = {
                 height = 0.85,
                 width = 0.85,
@@ -72,8 +71,14 @@ return {
     {
         'stevearc/conform.nvim',
         opts = {
+            formatters_by_ft = {
+                javascript = { 'prettier' },
+                typescript = { 'prettier' },
+                javascriptreact = { 'prettier' },
+                typescriptreact = { 'prettier' },
+            },
             format_on_save = {
-                timeout_ms = 1000,
+                timeout_ms = 5000,
                 lsp_format = 'fallback',
             },
         },
@@ -87,12 +92,64 @@ return {
     },
     {
         'windwp/nvim-ts-autotag',
-        opts = {},
+        opts = {
+            aliases = {
+                ['jsx'] = 'html',
+                ['tsx'] = 'html',
+            },
+        },
     },
 
-    -- Git Signs
+    -- Flash Nvim
     {
-        'lewis6991/gitsigns.nvim',
+        'folke/flash.nvim',
+        event = 'VeryLazy',
         opts = {},
+        keys = {
+            { '<leader>s', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end,   desc = 'Flash' },
+            {
+                '<leader>S',
+                mode = { 'n', 'x', 'o' },
+                function() require('flash').treesitter() end,
+                desc = 'Flash Treesitter',
+            },
+            { 'r',         mode = 'o',               function() require('flash').remote() end, desc = 'Remote Flash' },
+            {
+                'R',
+                mode = { 'o', 'x' },
+                function() require('flash').treesitter_search() end,
+                desc = 'Treesitter Search',
+            },
+            { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
+        },
+    },
+
+    -- Mini
+    {
+        'nvim-mini/mini.surround',
+        opts = {
+            mappings = {
+                add = 'sa',
+                delete = 'sd',
+                find = 'sf',
+                find_left = 'sF',
+                highlight = 'sh',
+                replace = 'sr',
+
+                suffix_last = 'l',
+                suffix_next = 'n',
+            },
+        },
+    },
+    {
+        'nvim-mini/mini.comment',
+        opts = {
+            mappings = {
+                comment = '<leader>/',
+                comment_line = '<leader>/',
+                comment_visual = '<leader>/',
+                textobject = '<leader>/',
+            },
+        },
     },
 }

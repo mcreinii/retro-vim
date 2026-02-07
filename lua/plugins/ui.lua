@@ -5,18 +5,14 @@ return {
         lazy = false,
         priority = 1000,
         config = function()
-            -- Pick your variant: 'soft', 'medium' (default), 'hard'
-            vim.g.everforest_background = 'hard' -- or 'soft' / 'hard'
+            vim.g.everforest_background = 'hard'
 
-            -- Enable italics (great for comments / keywords if your terminal supports)
             vim.g.everforest_enable_italic = true
 
-            -- UI improvements
-            vim.g.everforest_transparent_background = 0 -- 0 = opaque, 1 = semi, 2 = full transparent
-            vim.g.everforest_dim_inactive_windows = 0 -- dim non-focused windows
-            vim.g.everforest_disable_italic_comment = 0 -- if italics look bad on your font
+            vim.g.everforest_transparent_background = 0
+            vim.g.everforest_dim_inactive_windows = 0
+            vim.g.everforest_disable_italic_comment = 0
 
-            -- Better diagnostics / git signs integration
             vim.g.everforest_diagnostic_text_highlight = 1
             vim.g.everforest_diagnostic_line_highlight = 0
             vim.g.everforest_diagnostic_virtual_text = 'grey'
@@ -28,11 +24,10 @@ return {
     -- Explorer
     {
         'stevearc/oil.nvim',
-        lazy = false,            -- or event = 'VeryLazy' if you prefer
+        lazy = false,
         opts = {
-            default_file_explorer = true, -- replaces netrw
+            default_file_explorer = true,
             view_options = {
-                show_hidden = true,
                 natural_order = true,
             },
             float = {
@@ -57,11 +52,12 @@ return {
     {
         'rebelot/heirline.nvim',
         opts = function()
+            local conditions = require('heirline.conditions')
+
             local nvim_modes = {
                 init = function(self) self.mode = vim.fn.mode(1) end,
                 static = {
                     mode_names = {
-                        -- Normal & friends
                         n = '[ NORMAL ]',
                         no = '[ OP-PENDING ]',
                         nov = '[ OP-PENDING (char) ]',
@@ -72,7 +68,6 @@ return {
                         niV = '[ NORMAL (virtual-replace) ]',
                         nt = '[ TERMINAL-NORMAL ]',
 
-                        -- Visual modes
                         v = '[ VISUAL ]',
                         vs = '[ VISUAL (select) ]',
                         V = '[ VISUAL-LINE ]',
@@ -80,17 +75,14 @@ return {
                         ['\22'] = '[ VISUAL-BLOCK ]',
                         ['\22s'] = '[ VISUAL-BLOCK (select) ]',
 
-                        -- Select modes
                         s = '[ SELECT ]',
                         S = '[ SELECT-LINE ]',
                         ['\19'] = '[ SELECT-BLOCK ]',
 
-                        -- Insert & replace
                         i = '[ INSERT ]',
                         ic = '[ INSERT (compl-generic) ]',
                         ix = '[ INSERT (compl-menu) ]',
 
-                        -- Replace modes
                         R = '[ REPLACE ]',
                         Rc = '[ REPLACE (compl-generic) ]',
                         Rx = '[ REPLACE (compl-menu) ]',
@@ -98,7 +90,6 @@ return {
                         Rvc = '[ VIRTUAL-REPLACE (compl-generic) ]',
                         Rvx = '[ VIRTUAL-REPLACE (compl-menu) ]',
 
-                        -- Command-line & others
                         c = '[ COMMAND ]',
                         cv = '[ EX-MODE ]',
                         r = '[ HIT-ENTER ]',
@@ -108,7 +99,6 @@ return {
                         t = '[ TERMINAL ]',
                     },
                     mode_colors = {
-                        -- Normal & operator-pending
                         n = 'red',
                         no = 'red',
                         nov = 'red',
@@ -119,7 +109,6 @@ return {
                         niV = 'red',
                         nt = 'red',
 
-                        -- Visual (bright & noticeable – retro cyan/magenta feel)
                         v = 'cyan',
                         vs = 'cyan',
                         V = 'cyan',
@@ -127,17 +116,14 @@ return {
                         ['\22'] = 'cyan',
                         ['\22s'] = 'cyan',
 
-                        -- Select (more subdued purple – classic retro accent)
                         s = 'magenta',
                         S = 'magenta',
                         ['\19'] = 'magenta',
 
-                        -- Insert (classic green = safe/editing)
                         i = 'green',
                         ic = 'green',
                         ix = 'green',
 
-                        -- Replace (orange = danger/change)
                         R = 'orange',
                         Rc = 'orange',
                         Rx = 'orange',
@@ -145,17 +131,16 @@ return {
                         Rvc = 'orange',
                         Rvx = 'orange',
 
-                        -- Command-line & special (yellow/orange tones)
                         c = 'yellow',
                         cv = 'yellow',
                         r = 'yellow',
                         rm = 'yellow',
                         ['r?'] = 'yellow',
                         ['!'] = 'red',
-                        t = 'blue', -- terminal often gets blue in retro themes
+                        t = 'blue',
                     },
                 },
-                provider = function(self) return ' ' .. self.mode_names[self.mode] .. ' ' end,
+                provider = function(self) return self.mode_names[self.mode] end,
                 hl = function(self) return { fg = self.mode_colors[self.mode] } end,
                 update = {
                     'ModeChanged',
@@ -164,13 +149,176 @@ return {
                 },
             }
 
+            local filename = {
+                provider = function()
+                    local fname = vim.fn.expand('%:~:.')
+                    if fname == '' then fname = '' end
+                    return fname
+                end,
+                hl = { fg = 'gray' },
+                flexible = 2,
+                { provider = '%<' },
+            }
+
+            local git_diff = {
+                condition = conditions.is_git_repo(),
+
+                init = function(self) self.status_dict = vim.b.gitsigns_status_dict or {} end,
+
+                hl = { fg = 'gray' },
+
+                {
+                    provider = function(self)
+                        local head = self.status_dict.head or '?'
+                        return 'git:' .. head
+                    end,
+                    hl = { bold = true },
+                },
+
+                {
+                    provider = function(self)
+                        local n = self.status_dict.added or 0
+                        return n > 0 and ('+%d'):format(n) or ''
+                    end,
+                    hl = { fg = 'green' },
+                },
+
+                {
+                    provider = function(self)
+                        local n = self.status_dict.changed or 0
+                        return n > 0 and ('~%d'):format(n) or ''
+                    end,
+                    hl = { fg = 'orange' },
+                },
+
+                {
+                    provider = function(self)
+                        local n = self.status_dict.removed or 0
+                        return n > 0 and ('-%d'):format(n) or ''
+                    end,
+                    hl = { fg = 'red' },
+                },
+
+                { provider = '%<' },
+            }
+
+            local lsp_status = {
+                static = {},
+                provider = function(self)
+                    self.clients = {}
+                    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+                        if client.name ~= 'null-ls' and client.name ~= 'copilot' then
+                            table.insert(self.clients, client.name)
+                        end
+                    end
+                end,
+
+                hl = { fg = 'gray' },
+                {
+                    flexible = 3,
+                    {
+                        provider = function(self)
+                            if #self.clients == 0 then return 'lsp:inactive' end
+                            return 'lsp:active'
+                        end,
+                    },
+                },
+                update = {
+                    'LspAttach',
+                    'BufEnter',
+                    'BufLeave',
+                },
+            }
+
+            local diagnostics = {
+                condition = conditions.has_diagnostics(),
+
+                init = function(self)
+                    local c = vim.diagnostic.count(0) or {}
+                    self.errors = c[vim.diagnostic.severity.ERROR] or 0
+                    self.warnings = c[vim.diagnostic.severity.WARN] or 0
+                    self.info = c[vim.diagnostic.severity.INFO] or 0
+                    self.hints = c[vim.diagnostic.severity.HINT] or 0
+                end,
+
+                update = { 'DiagnosticChanged', 'BufEnter' },
+
+                hl = { fg = 'gray' },
+
+                provider = function(self)
+                    local parts = {}
+
+                    if (self.warnings or 0) > 0 then table.insert(parts, 'warn:' .. self.warnings) end
+
+                    if (self.errors or 0) > 0 then table.insert(parts, 'error:' .. self.errors) end
+
+                    if (self.info or 0) > 0 then table.insert(parts, 'info:' .. self.info) end
+
+                    if (self.hints or 0) > 0 then table.insert(parts, 'hint:' .. self.hints) end
+
+                    return table.concat(parts, ' ')
+                end,
+            }
+
             local statusline = {
+                { provider = ' ' },
                 nvim_modes,
+                { provider = ' ' },
+                filename,
+                { provider = ' ' },
+                git_diff,
+                { provider = '%=' },
+                diagnostics,
+                { provider = ' ' },
+                lsp_status,
             }
 
             return {
                 statusline = statusline,
             }
         end,
+    },
+
+    -- Whichkey
+    {
+        'folke/which-key.nvim',
+        opts = {
+            icons = {
+                mappings = false,
+                breadcrumb = '',
+                separator = ' ',
+                group = '',
+            },
+        },
+    },
+
+    -- LSP Notifier
+    {
+        'j-hui/fidget.nvim',
+        event = 'LspAttach',
+        opts = {
+            progress = {
+                ignore_empty_message = true,
+                display = {
+                    render = 'minimal',
+                    done_icon = 'OK',
+                    done_ttl = 3,
+                },
+            },
+            notification = {
+                override_vim_notify = true,
+                view = {
+                    stack_upwards = false,
+                },
+            },
+            window = {
+                blend = 0,
+                relative = 'editor',
+                anchor = 'se',
+                row = -2,
+                col = -4,
+                border = 'none',
+            },
+        },
     },
 }

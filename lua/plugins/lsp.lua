@@ -8,29 +8,42 @@ return {
             { 'mason-org/mason.nvim', opts = {} },
             'neovim/nvim-lspconfig',
         },
-        keys = {
-            { 'gd',         vim.lsp.buf.definition,     desc = 'Go to definition' },
-            { 'gD',         vim.lsp.buf.declaration,    desc = 'Go to declaration' },
-            { 'gi',         vim.lsp.buf.implementation, desc = 'Go to implementation' },
-            { 'gr',         vim.lsp.buf.references,     desc = 'References' },
-            { 'K',          vim.lsp.buf.hover,          desc = 'Hover' },
-            { '<C-k>',      vim.lsp.buf.signature_help, desc = 'Signature help' },
-            { '<leader>ca', vim.lsp.buf.code_action,    desc = 'Code action' },
-            { '<leader>rn', vim.lsp.buf.rename,         desc = 'Rename' },
-            { '<leader>dl', vim.diagnostic.open_float,  desc = 'Line diagnostics' },
-            { '[d',         vim.diagnostic.goto_prev,   desc = 'Prev diagnostic' },
-            { ']d',         vim.diagnostic.goto_next,   desc = 'Next diagnostic' },
-        },
+        config = function(_, opts)
+            require('mason-lspconfig').setup(opts)
+
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
+                callback = function(event)
+                    local bufnr = event.buf
+                    local opt = { buffer = bufnr, noremap = true, silent = true }
+
+                    local map = function(mode, lhs, rhs, desc)
+                        vim.keymap.set(mode, lhs, rhs, vim.tbl_extend('force', opt, { desc = desc }))
+                    end
+
+                    map('n', 'gd', vim.lsp.buf.definition, 'Go to definition')
+                    map('n', 'gD', vim.lsp.buf.declaration, 'Go to declaration')
+                    map('n', 'gi', vim.lsp.buf.implementation, 'Go to implementation')
+                    map('n', 'gr', vim.lsp.buf.references, 'References')
+                    map('n', 'K', vim.lsp.buf.hover, 'Hover')
+                    map('n', '<C-k>', vim.lsp.buf.signature_help, 'Signature help')
+                    map('n', '<leader>la', vim.lsp.buf.code_action, 'Code action')
+                    map('n', '<leader>lr', vim.lsp.buf.rename, 'Rename')
+                    map('n', '<leader>ld', vim.diagnostic.open_float, 'Line diagnostics')
+                    map('n', '[d', vim.diagnostic.goto_prev, 'Prev diagnostic')
+                    map('n', ']d', vim.diagnostic.goto_next, 'Next diagnostic')
+                    map({ 'n', 'v' }, '<leader>lf', vim.lsp.buf.format, 'Format')
+                end,
+            })
+        end,
     },
 
     -- LazyDev
     {
         'folke/lazydev.nvim',
-        ft = 'lua', -- only load on lua files
+        ft = 'lua',
         opts = {
             library = {
-                -- See the configuration section for more details
-                -- Load luvit types when the `vim.uv` word is found
                 { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
             },
         },
