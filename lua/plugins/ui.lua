@@ -21,6 +21,18 @@ return {
         end,
     },
 
+    -- Gruvbox
+    {
+        'morhetz/gruvbox',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.o.background = 'dark'
+            vim.g.gruvbox_contrast_dark = 'hard'
+            vim.cmd([[colo gruvbox]])
+        end,
+    },
+
     -- Explorer
     {
         'stevearc/oil.nvim',
@@ -170,7 +182,7 @@ return {
                 {
                     provider = function(self)
                         local head = self.status_dict.head or '?'
-                        return 'git:' .. head
+                        return 'GIT:' .. head
                     end,
                     hl = { bold = true },
                 },
@@ -178,7 +190,7 @@ return {
                 {
                     provider = function(self)
                         local n = self.status_dict.added or 0
-                        return n > 0 and ('+%d'):format(n) or ''
+                        return n > 0 and ('[+]%d'):format(n) or ''
                     end,
                     hl = { fg = 'green' },
                 },
@@ -186,7 +198,7 @@ return {
                 {
                     provider = function(self)
                         local n = self.status_dict.changed or 0
-                        return n > 0 and ('~%d'):format(n) or ''
+                        return n > 0 and ('[~]%d'):format(n) or ''
                     end,
                     hl = { fg = 'orange' },
                 },
@@ -194,7 +206,7 @@ return {
                 {
                     provider = function(self)
                         local n = self.status_dict.removed or 0
-                        return n > 0 and ('-%d'):format(n) or ''
+                        return n > 0 and ('[-]%d'):format(n) or ''
                     end,
                     hl = { fg = 'red' },
                 },
@@ -218,8 +230,8 @@ return {
                     flexible = 3,
                     {
                         provider = function(self)
-                            if #self.clients == 0 then return 'lsp:inactive' end
-                            return 'lsp:active'
+                            if #self.clients == 0 then return 'LSP:INACTIVE' end
+                            return 'LSP:ACTIVE'
                         end,
                     },
                 },
@@ -248,13 +260,13 @@ return {
                 provider = function(self)
                     local parts = {}
 
-                    if (self.warnings or 0) > 0 then table.insert(parts, 'warn:' .. self.warnings) end
+                    if (self.warnings or 0) > 0 then table.insert(parts, 'WARN:' .. self.warnings) end
 
-                    if (self.errors or 0) > 0 then table.insert(parts, 'error:' .. self.errors) end
+                    if (self.errors or 0) > 0 then table.insert(parts, 'ERROR:' .. self.errors) end
 
-                    if (self.info or 0) > 0 then table.insert(parts, 'info:' .. self.info) end
+                    if (self.info or 0) > 0 then table.insert(parts, 'INFO:' .. self.info) end
 
-                    if (self.hints or 0) > 0 then table.insert(parts, 'hint:' .. self.hints) end
+                    if (self.hints or 0) > 0 then table.insert(parts, 'HINT:' .. self.hints) end
 
                     return table.concat(parts, ' ')
                 end,
@@ -301,7 +313,7 @@ return {
                 ignore_empty_message = true,
                 display = {
                     render = 'minimal',
-                    done_icon = 'OK',
+                    done_icon = '[!]',
                     done_ttl = 3,
                 },
             },
