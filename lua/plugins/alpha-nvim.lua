@@ -1,12 +1,11 @@
--- Alpha setup with startify theme
 local alpha = require('alpha')
 local startify = require('alpha.themes.startify')
 
--- Optional: Custom Header
 startify.section.header.val = [[
 RetroVim
 Clean, nostalgic and fun.
 ]]
 
--- Setup alpha with the startify theme configuration
+startify.file_icons.enabled = false
+
 alpha.setup(startify.config)

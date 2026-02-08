@@ -16,6 +16,6 @@ require('blink.cmp').setup({
 		},
 	},
 	fuzzy = {
-		implementation = 'lua',
+		implementation = 'prefer_rust_with_warning',
 	},
 })
