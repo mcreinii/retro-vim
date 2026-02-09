@@ -120,6 +120,13 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 
 ## Configuration
 
+### Types
+
+- Retro (VimPlug) *default*
+```
+git checkout main
+```
+
 ### Themes
 
 Themes can be easily changed (SAFELY) by doing

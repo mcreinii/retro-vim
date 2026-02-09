@@ -1,14 +1,9 @@
--- [ Globals ]
-
--- Mapleader
+-- [ Mapleader and Basic Globals ]
 vim.g.mapleader = ' '
 vim.g.localmapleader = ' '
-
--- Disable Netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- [ Variables ]
 local data_dir = vim.fn.stdpath('data')
 local config_dir = vim.fn.stdpath('config')
 local setup = require('utils.plugins').setup
