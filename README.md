@@ -126,6 +126,10 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 ```
 git checkout main
 ```
+- Retro (LazyNvim)
+```
+git checkout lazynvim
+```
 
 ### Themes
 
