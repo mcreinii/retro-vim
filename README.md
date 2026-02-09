@@ -140,4 +140,4 @@ Key bindings will be shown once `<leader>` is pressed
 Want to contribute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
-##### Version 1.1.3
+##### Version 1.1.4

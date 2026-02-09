@@ -17,3 +17,4 @@ o.updatetime = 250
 o.laststatus = 3
 o.cmdheight = 0
 o.winborder = 'single'
+o.viewoptions = 'cursor,folds'
