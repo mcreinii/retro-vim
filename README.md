@@ -118,6 +118,17 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 
 - `<leader>g` Neogit
 
+## Configuration
+
+### Themes
+
+Themes can be easily changed (SAFELY) by doing
+```lua
+require('utils.themes').setup({
+    theme = 'industry' -- Default and fallback.
+})
+```
+
 ---
 
 #### whick-key.nvim
@@ -129,4 +140,4 @@ Keybindings will be shown once `<leader>` is pressed
 Want to contibrute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
-##### Version 1.1.0
+##### Version 1.1.1
