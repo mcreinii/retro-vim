@@ -54,7 +54,3 @@ require('nvim-tree').setup({
 		-- You may need to adjust your colorscheme itself for true retro colors
 	},
 })
-
-local keymaps = require('utils.keymaps')
-
-keymaps.silent_noremap('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', 'Toggle side explorer')

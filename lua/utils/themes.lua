@@ -1,9 +1,9 @@
 local M = {}
 
-M.fallback = 'industry'
+M.fallback = 'everforest'
 
 M.config = {
-	theme = 'industry',
+	theme = 'everforest',
 }
 
 function M.black_bg()

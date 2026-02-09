@@ -6,7 +6,7 @@ To provide retro and nostalgic feel yet still modern enough to be functional in 
 
 ## Plugins
 
-### Vim-Plug
+### Vim-Plug or LazyVim, checkout [Types](#Types)
 
 ### **Dependencies**
 
@@ -125,6 +125,10 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 - Retro (VimPlug) *default*
 ```
 git checkout main
+```
+- Retro (Lazy) *default*
+```
+git checkout lazynvim
 ```
 
 ### Themes

@@ -5,104 +5,233 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 local data_dir = vim.fn.stdpath('data')
-local config_dir = vim.fn.stdpath('config')
 local setup = require('utils.plugins').setup
 local theme = require('utils.themes')
 
--- [ Bootstrap Vim-Plug ]
-if vim.fn.empty(vim.fn.glob(data_dir .. '/site/autoload/plug.vim')) == 1 then
-	vim.cmd(
-		'silent !curl -fLo '
-			.. data_dir
-			.. '/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	)
-	vim.o.runtimepath = vim.o.runtimepath
-	vim.api.nvim_create_autocmd('VimEnter', {
-		callback = function()
-			vim.cmd('PlugInstall --sync | source ' .. config_dir .. '/init.lua')
-			vim.notify('Restarting Neovim is recommended')
-		end,
+-- [ Bootstrap Lazy.nvim ]
+local install_path = data_dir .. '/lazy/lazy.nvim'
+
+if not vim.loop.fs_stat(install_path) then
+	vim.fn.system({
+		'git',
+		'clone',
+		'--filter=blob:none',
+		'https://github.com/folke/lazy.nvim.git',
+		'--branch=stable', -- latest stable release
+		install_path,
 	})
 end
 
--- [ Plugins ]
-local Plug = vim.fn['plug#']
+vim.opt.rtp:prepend(install_path)
 
-vim.loader.enable()
+-- [ Plugins & Setup ]
+require('lazy').setup({
 
-vim.call('plug#begin')
+	-- Dependencies
+	{
+		'nvim-lua/plenary.nvim',
+		lazy = true,
+	},
+	{
+		'sindrets/diffview.nvim',
+		cmd = { 'DiffviewOpen', 'DiffviewClose' },
+		dependencies = 'nvim-lua/plenary.nvim',
+	},
 
--- Dependencies
-Plug('nvim-lua/plenary.nvim') -- [+]
-Plug('sindrets/diffview.nvim') -- [+]
+	-- UI
+	{
+		'goolord/alpha-nvim',
+		event = 'VimEnter',
+		config = function() setup('plugins.alpha-nvim') end,
+	},
+	{
+		'sainnhe/everforest',
+		event = 'VimEnter',
+		config = function()
+			theme.setup({ theme = 'everforest' })
+			theme.black_bg()
+		end,
+	},
+	{
+		'morhetz/gruvbox',
+		event = 'VimEnter',
+		lazy = true,
+	},
+	{
+		'rebelot/heirline.nvim',
+		event = 'BufWinEnter',
+		config = function() setup('plugins.heirline') end,
+	},
+	{
+		'nvim-tree/nvim-tree.lua',
+		cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
+		config = function() setup('plugins.nvim-tree-lua') end,
+		keys = {
+			{ '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Open side explorer' },
+		},
+	},
+	{
+		'folke/which-key.nvim',
+		event = 'VeryLazy',
+		config = function() setup('plugins.which-key') end,
+	},
+	{
+		'j-hui/fidget.nvim',
+		event = 'LspAttach',
+		config = function() setup('plugins.fidget') end,
+	},
 
--- UI
-Plug('goolord/alpha-nvim') -- [+]
-Plug('sainnhe/everforest') -- [+]
-Plug('morhetz/gruvbox') -- [+]
-Plug('rebelot/heirline.nvim') -- [+]
-Plug('nvim-tree/nvim-tree.lua') -- [+]
-Plug('folke/which-key.nvim') -- [+]
-Plug('j-hui/fidget.nvim') -- [+]
+	-- Editor
+	{
+		'nvim-treesitter/nvim-treesitter',
+		event = 'BufRead',
+		config = function() setup('plugins.nvim-treesitter') end,
+	},
+	{
+		'windwp/nvim-autopairs',
+		event = 'InsertEnter',
+		config = function() setup('plugins.nvim-autopairs') end,
+	},
+	{
+		'windwp/nvim-ts-autotag',
+		event = 'InsertEnter',
+		config = function() setup('plugins.nvim-ts-autotag') end,
+	},
+	{
+		'saghen/blink.cmp',
+		version = 'v1.*',
+		build = 'cargo build --release',
+		config = function() setup('plugins.blink-cmp') end,
+	},
+	{
+		'rafamadriz/friendly-snippets',
+		event = 'InsertEnter',
+		config = function() setup('plugins.friendly-snippets') end,
+	},
+	{
+		'nvim-mini/mini.surround',
+		event = 'BufRead',
+		config = function() setup('plugins.mini-surround') end,
+	},
+	{
+		'nvim-mini/mini.comment',
+		event = 'BufRead',
+		config = function() setup('plugins.mini-comment') end,
+	},
+	{
+		'ibhagwan/fzf-lua',
+		cmd = 'FzfLua',
+		config = function() setup('plugins.fzf-lua') end,
+		keys = {
+			{ '<leader>ff', '<cmd>FzfLua files<cr>', desc = 'Find files' },
+			{ '<leader>fG', '<cmd>FzfLua git_files<cr>', desc = 'Find Git files' },
+			{ '<leader>fg', '<cmd>FzfLua live_grep<cr>', desc = 'Live Grep' },
+			{ '<leader>fb', '<cmd>FzfLua buffers<cr>', desc = 'Buffers' },
+			{ '<leader>fh', '<cmd>FzfLua help_tags<cr>', desc = 'Help tags' },
+			{ '<leader>fr', '<cmd>FzfLua oldfiles<cr>', desc = 'Recent files' },
+			{ '<leader>fc', '<cmd>FzfLua commands<cr>', desc = 'Commands' },
+			{ '<C-p>', '<cmd>FzfLua files<cr>', desc = 'Quick find files' },
+		},
+	},
+	{
+		'folke/flash.nvim',
+		keys = {
+			{ '<leader>s', function() require('flash').jump() end, desc = 'Flash', mode = { 'n', 'x', 'o' } },
+			{
+				'<leader>S',
+				function() require('flash').treesitter() end,
+				desc = 'Flash Treesitter',
+				mode = { 'n', 'x', 'o' },
+			},
+			{ 'r', function() require('flash').remote() end, desc = 'Remote Flash', mode = { 'o' } },
+			{
+				'R',
+				function() require('flash').treesitter_search() end,
+				desc = 'Treesitter Search',
+				mode = { 'o', 'x' },
+			},
+			{ '<c-s>', function() require('flash').toggle() end, desc = 'Toggle Flash Search', mode = { 'c' } },
+		},
+	},
+	{
+		'stevearc/conform.nvim',
+		event = 'BufWritePre',
+		config = function() setup('plugins.conform-nvim') end,
+	},
+	{
+		'mluders/comfy-line-numbers.nvim',
+		event = 'BufWinEnter',
+		config = function() setup('plugins.comfy-line-numbers-nvim') end,
+	},
 
--- Editor
-Plug('nvim-treesitter/nvim-treesitter') -- [+]
-Plug('windwp/nvim-autopairs') -- [+]
-Plug('windwp/nvim-ts-autotag') -- [+]
-Plug('saghen/blink.cmp', { ['tag'] = 'v1.*', ['do'] = 'cargo build --release' }) -- [+]
-Plug('rafamadriz/friendly-snippets') -- [+]
-Plug('nvim-mini/mini.surround') -- [+]
-Plug('nvim-mini/mini.comment') -- [+]
-Plug('ibhagwan/fzf-lua') -- [+]
-Plug('folke/flash.nvim') -- [+]
-Plug('stevearc/conform.nvim') -- [+]
-Plug('mluders/comfy-line-numbers.nvim') -- [+]
+	-- LSP
+	{
+		'mason-org/mason.nvim',
+		config = function() setup('plugins.mason') end,
+	},
+	{
+		'mason-org/mason-lspconfig.nvim',
+		config = function() setup('plugins.mason-lspconfig') end,
+	},
+	{
+		'neovim/nvim-lspconfig',
+		config = function() setup('plugins.nvim-lspconfig') end,
+	},
 
--- LSP
-Plug('mason-org/mason-lspconfig.nvim') -- [+]
-Plug('mason-org/mason.nvim') -- [+]
-Plug('neovim/nvim-lspconfig') -- [+]
+	-- Git
+	{
+		'lewis6991/gitsigns.nvim',
+		event = 'BufRead',
+		config = function() setup('plugins.gitsigns-nvim') end,
+	},
+	{
+		'NeogitOrg/neogit',
+		cmd = 'Neogit',
+		config = function() setup('plugins.neogit') end,
+		keys = {
+			{ '<leader>g', '<cmd>Neogit<cr>', 'Open Neogit' },
+		},
+	},
 
--- Git
-Plug('lewis6991/gitsigns.nvim') -- [+]
-Plug('NeogitOrg/neogit') -- [+]
-
--- Development
-Plug('folke/lazydev.nvim', { ['for'] = 'lua' }) -- [+]
-
-vim.call('plug#end')
-
--- [ Setup all the plugins configurations ]
-
--- UI
-setup('plugins.alpha-nvim')
-setup('plugins.heirline')
-setup('plugins.nvim-tree-lua')
-setup('plugins.fidget')
-setup('plugins.which-key')
-
--- Editor
-setup('plugins.nvim-treesitter')
-setup('plugins.blink-cmp')
-setup('plugins.fzf-lua')
-setup('plugins.nvim-autopairs')
-setup('plugins.nvim-ts-autotag')
-setup('plugins.mini-surround')
-setup('plugins.mini-comment')
-setup('plugins.flash-nvim')
-setup('plugins.conform-nvim')
-setup('plugins.comfy-line-numbers-nvim')
-
--- LSP
-setup('plugins.mason')
-setup('plugins.mason-lspconfig')
-
--- Git
-setup('plugins.gitsigns-nvim')
-setup('plugins.neogit')
-
--- Development
-setup('plugins.lazydev')
+	-- Development
+	{
+		'folke/lazydev.nvim',
+		ft = 'lua',
+		config = function() setup('plugins.lazydev') end,
+	},
+}, {
+	-- Lazy UI
+	ui = {
+		icons = {
+			cmd = '</>',
+			config = '*',
+			event = '~',
+			ft = '#',
+			init = '-',
+			import = '+',
+			keys = '>',
+			lazy = 'L',
+			loaded = 'OK',
+			not_loaded = 'NO',
+			debug = 'D',
+			favorite = '[*]',
+			plugin = '[D]',
+			runtime = 'R ',
+			require = 'REQ ',
+			source = 'SO ',
+			start = '[S] ',
+			task = '[+] ',
+			list = {
+				'.',
+				'->',
+				'[*]',
+				'‒',
+			},
+		},
+		compact = false,
+		wrap = true,
+	},
+})
 
 -- [ Setup and load theme ]
 setup('plugins.themes')
