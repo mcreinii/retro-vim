@@ -81,8 +81,7 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 
 ### File Explorer
 
-- `<leader>ee` Toggle side explorer
-- `<leader>er` Refresh side explorer
+- `<leader>e` Toggle side explorer
 
 ### Navigations
 
@@ -92,8 +91,8 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 ### Fuzzy Finder
 
 - `<leader>ff` Find files
-- `<leader>fg` Find Git files
-- `<leader>fl` Live grep
+- `<leader>fG` Find Git files
+- `<leader>fg` Live grep
 - `<leader>fb` Buffers
 - `<leader>fh` Help tags
 - `<leader>fr` Recent files
@@ -130,4 +129,4 @@ Keybindings will be shown once `<leader>` is pressed
 Want to contibrute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
-##### Version 1.0.0
+##### Version 1.1.0
