@@ -12,6 +12,7 @@ vim.g.loaded_netrwPlugin = 1
 local data_dir = vim.fn.stdpath('data')
 local config_dir = vim.fn.stdpath('config')
 local setup = require('utils.plugins').setup
+local theme = require('utils.themes')
 
 -- [ Bootstrap Vim-Plug ]
 if vim.fn.empty(vim.fn.glob(data_dir .. '/site/autoload/plug.vim')) == 1 then
@@ -110,9 +111,10 @@ setup('plugins.lazydev')
 
 -- [ Setup and load theme ]
 setup('plugins.themes')
-require('utils.themes').setup({
-	theme = 'industry', -- Default and the fallback
+theme.setup({
+	theme = 'everforest', -- Default and the fallback
 })
+theme.black_bg()
 
 -- [ Setup all the basic options and keymaps ]
 require('core.options')

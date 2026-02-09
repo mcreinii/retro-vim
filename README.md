@@ -2,7 +2,7 @@
 
 ## Goal
 
-To provide a retro and nostalgic feel yet still modern enough to be functional in this day and age.
+To provide retro and nostalgic feel yet still modern enough to be functional in this day and age.
 
 ## Plugins
 
@@ -65,7 +65,7 @@ mv ~/.local/share/nvim{,.bak} ~/.local/state/nvim{,.bak}
 git clone https://github.com/mcreinii/retro-vim ~/.config/nvim && nvim
 ```
 
-### Windows (Powershell)
+### Windows (PowerShell)
 
 ```poweshell
 # Backup existing config, data, and state -- Optional
@@ -77,7 +77,7 @@ Move-Item "$env:LOCALAPPDATA\nvim-state" "$env:LOCALAPPDATA\nvim-state.bak" -Err
 git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 ```
 
-## Keybindings
+## Key Bindings
 
 ### File Explorer
 
@@ -133,11 +133,11 @@ require('utils.themes').setup({
 
 #### whick-key.nvim
 
-Keybindings will be shown once `<leader>` is pressed
+Key bindings will be shown once `<leader>` is pressed
 
 #### Contributions
 
-Want to contibrute? Feel free to do so!
+Want to contribute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
 ##### Version 1.1.1
