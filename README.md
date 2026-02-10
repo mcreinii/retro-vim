@@ -6,7 +6,7 @@ To provide retro and nostalgic feel yet still modern enough to be functional in 
 
 ## Plugins
 
-### Vim-Plug
+### Vim-Plug or LazyVim, checkout [Types](#Types)
 
 ### **Dependencies**
 
@@ -126,7 +126,7 @@ git clone https://github.com/mcreinii/retro-vim "$env:LOCALAPPDATA\nvim"; nvim
 ```
 git checkout main
 ```
-- Retro (LazyNvim)
+- Retro (Lazy)
 ```
 git checkout lazynvim
 ```
@@ -135,8 +135,9 @@ git checkout lazynvim
 
 Themes can be easily changed (SAFELY) by doing
 ```lua
-require('utils.themes').setup({
+theme.setup({
     theme = 'industry' -- Default and fallback.
+    black = true, -- Black background is default, just set it to false if you'd like
 })
 ```
 
@@ -151,4 +152,4 @@ Key bindings will be shown once `<leader>` is pressed
 Want to contribute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
-##### Version 1.1.4
+##### Version 1.1.5
