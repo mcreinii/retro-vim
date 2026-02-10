@@ -32,6 +32,7 @@ To provide retro and nostalgic feel yet still modern enough to be functional in 
 - rafamadriz/friendly-snippets
 - nvim-mini/mini.surround
 - nvim-mini/mini.comment
+- folke/todo-comment.nvim
 - ibhagwan/fzf-lua
 - folke/flash.nvim
 - stevearc/conform.nvim
