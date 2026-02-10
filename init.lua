@@ -110,6 +110,11 @@ require('lazy').setup({
 		config = function() setup('plugins.mini-comment') end,
 	},
 	{
+		'folke/todo-comments.nvim',
+		event = { 'BufRead' },
+		config = function() require('plugins.todo-comments-nvim') end,
+	},
+	{
 		'ibhagwan/fzf-lua',
 		cmd = 'FzfLua',
 		config = function() setup('plugins.fzf-lua') end,
