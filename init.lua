@@ -108,8 +108,8 @@ setup('plugins.lazydev')
 setup('plugins.themes')
 theme.setup({
 	theme = 'everforest', -- Default and the fallback
+	black = true,
 })
-theme.black_bg()
 
 -- [ Setup all the basic options and keymaps ]
 require('core.options')
