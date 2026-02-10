@@ -53,6 +53,7 @@ Plug('saghen/blink.cmp', { ['tag'] = 'v1.*', ['do'] = 'cargo build --release' })
 Plug('rafamadriz/friendly-snippets') -- [+]
 Plug('nvim-mini/mini.surround') -- [+]
 Plug('nvim-mini/mini.comment') -- [+]
+Plug('folke/todo-comments.nvim') -- [+]
 Plug('ibhagwan/fzf-lua') -- [+]
 Plug('folke/flash.nvim') -- [+]
 Plug('stevearc/conform.nvim') -- [+]
@@ -89,6 +90,7 @@ setup('plugins.nvim-autopairs')
 setup('plugins.nvim-ts-autotag')
 setup('plugins.mini-surround')
 setup('plugins.mini-comment')
+setup('plugins.todo-comments-nvim')
 setup('plugins.flash-nvim')
 setup('plugins.conform-nvim')
 setup('plugins.comfy-line-numbers-nvim')
