@@ -44,19 +44,10 @@ require('lazy').setup({
 		event = 'VimEnter',
 		config = function() setup('plugins.alpha-nvim') end,
 	},
-	{
-		'sainnhe/everforest',
-		event = 'VimEnter',
-		config = function()
-			theme.setup({ theme = 'everforest' })
-			theme.black_bg()
-		end,
-	},
-	{
-		'morhetz/gruvbox',
-		event = 'VimEnter',
-		lazy = true,
-	},
+	{ 'sainnhe/everforest', event = 'VimEnter', lazy = true },
+	{ 'morhetz/gruvbox', event = 'VimEnter', lazy = true },
+	{ 'rose-pine/neovim', event = 'VimEnter', lazy = true },
+	{ 'vague-theme/vague.nvim', event = 'VimEnter', lazy = true },
 	{
 		'rebelot/heirline.nvim',
 		event = 'BufWinEnter',
@@ -236,9 +227,9 @@ require('lazy').setup({
 -- [ Setup and load theme ]
 setup('plugins.themes')
 theme.setup({
-	theme = 'everforest', -- Default and the fallback
+	theme = 'vague', -- Default if not valid, fallback (everforest)
+	black = true,
 })
-theme.black_bg()
 
 -- [ Setup all the basic options and keymaps ]
 require('core.options')

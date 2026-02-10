@@ -135,8 +135,9 @@ git checkout lazynvim
 
 Themes can be easily changed (SAFELY) by doing
 ```lua
-require('utils.themes').setup({
+theme.setup({
     theme = 'industry' -- Default and fallback.
+    black = true, -- Black background is default, just set it to false if you'd like
 })
 ```
 
