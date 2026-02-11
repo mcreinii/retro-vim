@@ -9,37 +9,30 @@ require('nvim-tree').setup({
 			enable = true,
 			inline_arrows = true,
 			icons = {
-				corner = '└',
-				edge = '│',
-				item = '│',
-				bottom = '─',
+				corner = '+',
+				edge = '|',
+				item = '|',
+				bottom = '-',
 				none = ' ',
 			},
 		},
 		icons = {
 			show = { file = false },
 			web_devicons = {
-				file = {
-					enable = false,
-				},
-				folder = {
-					enable = false,
-				},
+				file = { enable = false },
+				folder = { enable = false },
 			},
 			glyphs = {
 				folder = {
-					-- Use simple arrows for folder status
 					arrow_closed = '>',
 					arrow_open = 'v',
-					-- Use standard folder representations
 					default = '[-]',
 					open = '[O]',
 					empty = '[ ]',
 				},
 				git = {
-					-- Use simple symbols for git status
-					unstaged = '[~]', -- star for untracked/modified
-					staged = '[+]', -- plus for staged
+					unstaged = '[~]',
+					staged = '[+]',
 					unmerged = '[=]',
 					renamed = '[^]',
 					untracked = '[?]',
@@ -48,13 +41,7 @@ require('nvim-tree').setup({
 			},
 		},
 	},
-	-- Disable git badge color highlights if you want a monochrome look
 	git = {
-		enable = true, -- can keep the indicators, just use simple glyphs above
-		-- You may need to adjust your colorscheme itself for true retro colors
+		enable = true,
 	},
 })
-
-local keymaps = require('utils.keymaps')
-
-keymaps.silent_noremap('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', 'Toggle side explorer')

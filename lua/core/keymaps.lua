@@ -22,6 +22,7 @@ keymap.silent_noremap('n', '<leader>C', function()
 	end
 end, 'Close files except current')
 keymap.silent_noremap('n', '<leader>w', '<cmd>w<cr>', 'Write buffer')
+keymap.silent_noremap('n', '<leader>p', '<cmd>b #<cr>', 'Previous buffer')
 
 -- [ Scrolling ]
 keymap.silent_noremap('n', '<C-d>', '<C-d>zz', 'Scroll down centered')

@@ -5,6 +5,10 @@ require('fzf-lua').setup({
 		height = 0.85,
 		width = 0.85,
 		preview = { hidden = 'nohidden', vertical = 'down:45%', title = ' Preview ', border = get_border },
+<<<<<<< HEAD
 		border = get_border,
+=======
+		border = 'single',
+>>>>>>> lazynvim
 	},
 })
