@@ -160,21 +160,6 @@ require('lazy').setup({
 		config = function() setup('plugins.comfy-line-numbers-nvim') end,
 	},
 
-<<<<<<< HEAD
--- Editor
-Plug('nvim-treesitter/nvim-treesitter') -- [+]
-Plug('windwp/nvim-autopairs') -- [+]
-Plug('windwp/nvim-ts-autotag') -- [+]
-Plug('saghen/blink.cmp', { ['tag'] = 'v1.*', ['do'] = 'cargo build --release' }) -- [+]
-Plug('rafamadriz/friendly-snippets') -- [+]
-Plug('nvim-mini/mini.surround') -- [+]
-Plug('nvim-mini/mini.comment') -- [+]
-Plug('folke/todo-comments.nvim') -- [+]
-Plug('ibhagwan/fzf-lua') -- [+]
-Plug('folke/flash.nvim') -- [+]
-Plug('stevearc/conform.nvim') -- [+]
-Plug('mluders/comfy-line-numbers.nvim') -- [+]
-=======
 	-- LSP
 	{
 		'mason-org/mason.nvim',
@@ -188,7 +173,6 @@ Plug('mluders/comfy-line-numbers.nvim') -- [+]
 		'neovim/nvim-lspconfig',
 		config = function() setup('plugins.nvim-lspconfig') end,
 	},
->>>>>>> lazynvim
 
 	-- Git
 	{
@@ -205,49 +189,6 @@ Plug('mluders/comfy-line-numbers.nvim') -- [+]
 		},
 	},
 
-<<<<<<< HEAD
--- Git
-Plug('lewis6991/gitsigns.nvim') -- [+]
-Plug('NeogitOrg/neogit') -- [+]
-
--- Development
-Plug('folke/lazydev.nvim', { ['for'] = 'lua' }) -- [+]
-
-vim.call('plug#end')
-
--- [ Setup all the plugins configurations ]
-
--- UI
-setup('plugins.alpha-nvim')
-setup('plugins.heirline')
-setup('plugins.nvim-tree-lua')
-setup('plugins.fidget')
-setup('plugins.which-key')
-
--- Editor
-setup('plugins.nvim-treesitter')
-setup('plugins.blink-cmp')
-setup('plugins.fzf-lua')
-setup('plugins.nvim-autopairs')
-setup('plugins.nvim-ts-autotag')
-setup('plugins.mini-surround')
-setup('plugins.mini-comment')
-setup('plugins.todo-comments-nvim')
-setup('plugins.flash-nvim')
-setup('plugins.conform-nvim')
-setup('plugins.comfy-line-numbers-nvim')
-
--- LSP
-setup('plugins.mason')
-setup('plugins.mason-lspconfig')
-
--- Git
-setup('plugins.gitsigns-nvim')
-setup('plugins.neogit')
-
--- Development
-setup('plugins.lazydev')
-=======
 	-- Development
 	{
 		'folke/lazydev.nvim',
@@ -287,16 +228,11 @@ setup('plugins.lazydev')
 		wrap = true,
 	},
 })
->>>>>>> lazynvim
 
 -- [ Setup and load theme ]
 setup('plugins.themes')
 theme.setup({
-<<<<<<< HEAD
-	theme = 'everforest', -- Default and the fallback
-=======
 	theme = 'vague', -- Default if not valid, fallback (everforest)
->>>>>>> lazynvim
 	black = true,
 })
 
