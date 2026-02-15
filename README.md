@@ -37,6 +37,7 @@ To provide retro and nostalgic feel yet still modern enough to be functional in 
 - folke/flash.nvim
 - stevearc/conform.nvim
 - mluders/comfy-line-numbers.nvim
+- OXY2DEV/markview.nvim
 
 ### **LSP Plugins**
 
@@ -142,4 +143,4 @@ Key bindings will be shown once `<leader>` is pressed
 Want to contribute? Feel free to do so!
 I'd love to see your plugin recommendations and configuration suggestions!
 
-##### Version 1.1.5
+##### Version 1.1.8

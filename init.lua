@@ -160,6 +160,11 @@ require('lazy').setup({
 		event = 'BufWinEnter',
 		config = function() setup('plugins.comfy-line-numbers-nvim') end,
 	},
+	{
+		'OXY2DEV/markview.nvim',
+		event = 'BufRead',
+		config = function() setup('plugins.markview-nvim') end,
+	},
 
 	-- LSP
 	{
