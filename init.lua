@@ -75,7 +75,8 @@ require('lazy').setup({
 	-- Editor
 	{
 		'nvim-treesitter/nvim-treesitter',
-		event = 'BufRead',
+		lazy = false,
+		build = ':TSUpdate',
 		config = function() setup('plugins.nvim-treesitter') end,
 	},
 	{
